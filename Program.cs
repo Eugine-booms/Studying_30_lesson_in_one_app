@@ -1,4 +1,4 @@
-﻿using ConsoleApp2.Serialization;
+﻿using LessonInOne.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +8,10 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
+            #region Lesson 24 Enumerator Indexator Enumerated
+
+            #endregion
+
             #region Lesson 26 "Serialization"
             //SerializationMain.Init();
             //SerializationMain.SerializMainBinary();
@@ -15,8 +19,8 @@ namespace ConsoleApp2
             //SerializationMain.SerializMainXML();
             //SerializationMain.SerializMainJSON();
             #endregion
-            
-           
+
+
 
             Console.ReadKey();
         }

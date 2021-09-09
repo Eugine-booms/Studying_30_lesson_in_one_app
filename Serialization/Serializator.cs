@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Json;
 using System.Xml.Serialization;
 
-namespace ConsoleApp2.Serialization
+namespace LessonInOne.Serialization
 {
     public static class Serializator
     {

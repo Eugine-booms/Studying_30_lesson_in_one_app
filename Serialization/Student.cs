@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ConsoleApp2
+namespace LessonInOne.Serialization
 {
     [DataContract, Serializable]
    public class Student

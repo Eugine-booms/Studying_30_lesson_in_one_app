@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace ConsoleApp2.Serialization
+namespace LessonInOne.Serialization
 {
     public static class SerializationMain
     {
