@@ -22,7 +22,7 @@ namespace LessonInOne.Serialization
             {
                 groups.Add(new Group(i * 100, "Группа " + i * 100));
             }
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var student = new Student(Guid.NewGuid().ToString().Substring(0, 5), rnd.Next(18, 30))
                 {

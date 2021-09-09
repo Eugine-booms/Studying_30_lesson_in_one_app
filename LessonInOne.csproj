@@ -47,6 +47,11 @@
   <ItemGroup>
     <Compile Include="Eat.cs" />
     <Compile Include="GeoAttribute.cs" />
+    <Compile Include="Indexer Enumerator\Car.cs" />
+    <Compile Include="Indexer Enumerator\FibonacciSequense.cs" />
+    <Compile Include="Indexer Enumerator\MainLesson24.cs" />
+    <Compile Include="Indexer Enumerator\Parking.cs" />
+    <Compile Include="Indexer Enumerator\Sequences.cs" />
     <Compile Include="Serialization\Group.cs" />
     <Compile Include="Lesson.cs" />
     <Compile Include="Photo.cs" />
