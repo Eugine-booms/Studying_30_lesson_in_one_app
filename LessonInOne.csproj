@@ -46,12 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Eat.cs" />
+    <Compile Include="ExtensionMethods\ExtensionMetods.cs" />
+    <Compile Include="ExtensionMethods\Helper.cs" />
+    <Compile Include="ExtensionMethods\Road.cs" />
     <Compile Include="GeoAttribute.cs" />
-    <Compile Include="Indexer Enumerator\Car.cs" />
-    <Compile Include="Indexer Enumerator\FibonacciSequense.cs" />
-    <Compile Include="Indexer Enumerator\MainLesson24.cs" />
-    <Compile Include="Indexer Enumerator\Parking.cs" />
-    <Compile Include="Indexer Enumerator\Sequences.cs" />
+    <Compile Include="IndexerAndEnumerator\Car.cs" />
+    <Compile Include="IndexerAndEnumerator\FibonacciSequense.cs" />
+    <Compile Include="IndexerAndEnumerator\MainLesson24.cs" />
+    <Compile Include="IndexerAndEnumerator\Parking.cs" />
+    <Compile Include="IndexerAndEnumerator\Sequences.cs" />
     <Compile Include="Serialization\Group.cs" />
     <Compile Include="Lesson.cs" />
     <Compile Include="Photo.cs" />

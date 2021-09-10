@@ -37,7 +37,7 @@ namespace LessonInOne.Indexer_Enumerator
         private static void ExampleLazySequense()
         {
             Console.WriteLine("\n ExampleLazySequense() \n последовательность с 5 по 10 элементы");
-            var str=string.Join(", ", Sequences.Fibonacci.Skip(5).Take(10).Select(x=>x));
+            var str=string.Join(", ", Sequences.Fibonacci.Skip(5).Take(10).Select(x=>x.ToString()));
             Console.WriteLine(str);
         }
         private static void ExampleGetEnumerator()
