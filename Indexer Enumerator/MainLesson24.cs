@@ -30,38 +30,62 @@ namespace LessonInOne.Indexer_Enumerator
         {
             //example parking indexer
             ExampleIndexer();
-
-
-            
+            ExampleEnumerator();
+            ExampleLazySequense();
         }
 
-        //TODO : доделать 
-        public static void ExampleIndexer()
+        private static void ExampleLazySequense()
         {
-            ExampleIndexerFromIdex();
-            ExampleIndexerFromNumber();
-            
+            Console.WriteLine("\n ExampleLazySequense() \n последовательность с 5 по 10 элементы");
+            var str=string.Join(", ", Sequences.Fibonacci.Skip(5).Take(10).Select(x=>x));
+            Console.WriteLine(str);
+        }
+        private static void ExampleGetEnumerator()
+        {
+            Console.WriteLine("ExampleGetEnumerator() \n");
             foreach (var car in parking)
             {
                 Console.WriteLine(car);
             }
-            foreach (var item in parking.GetNames())
+        }
+        private static void ExampleEnumeratorGetNames() 
+        {
+            Console.WriteLine("ExampleEnumeratorGetNames() \n");
+
+            foreach (var car in parking.GetNames())
             {
-                Console.WriteLine(item);
-            }
-            foreach (var item in parking.GetNumbers())
-            {
-                Console.WriteLine(item);
+                Console.WriteLine(car);
             }
         }
-
+        private static void ExampleEnumeratorGetNumbers()
+        {
+            Console.WriteLine("ExampleEnumeratorGetNumbers() \n");
+            foreach (var car in parking.GetNumbers())
+            {
+                Console.WriteLine(car);
+            }
+        }
+        public static void ExampleEnumerator() 
+        {
+            ExampleGetEnumerator();
+            ExampleEnumeratorGetNames();
+            ExampleEnumeratorGetNumbers();
+        }
+        public static void ExampleIndexer()
+        {
+            ExampleIndexerFromIdex();
+            ExampleIndexerFromNumber();
+        }
         private static void ExampleIndexerFromNumber()
         {
+            Console.WriteLine();
             Console.WriteLine("ExampleIndexerFromNumber");
-            Console.Write("существующий номер");
-            Console.WriteLine(parking["A001AA01"]);
+            Console.Write("существующий номер ");
+            var carWhithNumber = parking["A001AA01"];
+            Console.WriteLine(carWhithNumber);
             Console.Write("Несуществующий номер");
             Console.WriteLine(parking["A001BB01"]);
+            Console.WriteLine("");
         }
 
         private static void ExampleIndexerFromIdex()
@@ -77,11 +101,13 @@ namespace LessonInOne.Indexer_Enumerator
         }
         private static void ExampleReplaceItemFromIndex()
         {
+            Console.WriteLine();
             Console.WriteLine("ExampleReplaceItemFromIndex");
             Console.WriteLine($"Before parking[1]= {parking[1]}");
             Console.WriteLine("after replace parking[1] to new Car() { Name = VAZ, Number = C000CC174");
             parking[1] = new Car() { Name = "VAZ", Number = "C000CC174" };
             Console.WriteLine(parking);
+            Console.WriteLine();
         }
     }
 }
