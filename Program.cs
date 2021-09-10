@@ -12,7 +12,7 @@ namespace LessonInOne
         static void Main(string[] args)
         {
             #region Lesson 21 Extension Methods
-            ExtensionMetods.ExtensionMetodsMain();
+           // ExtensionMetods.ExtensionMetodsMain();
             #endregion
             #region Lesson 24 Enumerator Indexer Enumerated
             //MainLesson24.Init();
