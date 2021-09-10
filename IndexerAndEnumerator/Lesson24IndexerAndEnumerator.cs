@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace LessonInOne.Indexer_Enumerator
 {
-    static public class MainLesson24
+    public class Lesson24IndexerAndEnumerator:LessonBase
     {
         static List<Car> cars;
         static Parking parking = new Parking();
-        static public void Init()
+        override protected void Init()
         {
             cars = new List<Car>()
             {
@@ -26,8 +26,9 @@ namespace LessonInOne.Indexer_Enumerator
             }
         }
 
-        internal static void ExampleStart()
+        override public void LessonMain()
         {
+            Init();
             //example parking indexer
             ExampleIndexer();
             ExampleEnumerator();

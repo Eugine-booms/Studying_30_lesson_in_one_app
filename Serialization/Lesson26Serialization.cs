@@ -11,12 +11,20 @@ using System.Xml.Serialization;
 
 namespace LessonInOne.Serialization
 {
-    public static class SerializationMain
+    public class Lesson26Serialization : LessonBase
     {
-        static Random rnd = new Random();
-        static List<Group> groups  = new List<Group>();
-        static List<Student> students = new List<Student>();
-        static public void Init()
+        private Random rnd = new Random();
+        private List<Group> groups = new List<Group>();
+        private List<Student> students = new List<Student>();
+        public override void LessonMain()
+        {
+            Init();
+            SerializMainBinary();
+            SerializMainSOAP();
+            SerializMainXML();
+            SerializMainJSON();
+        }
+        protected override void Init()
         {
             for (int i = 1; i < 10; i++)
             {
@@ -31,11 +39,11 @@ namespace LessonInOne.Serialization
                 students.Add(student);
             }
         }
-        internal static void SerializMainXML()
+        private void SerializMainXML()
         {
             Serializator.XMLSerializator<List<Group>>(groups, "group1.XML");
             Serializator.XMLSerializator<List<Student>>(students, "student.XML");
-            
+
             var LoadStudent = Serializator.XMLDeserializator<List<Student>>("student.XML") ??
                                 throw new ArgumentNullException("файл student.XML пустой");
             var LoadGroups = Serializator.XMLDeserializator<List<Group>>("group1.XML") ??
@@ -46,7 +54,7 @@ namespace LessonInOne.Serialization
             Console.WriteLine("XML");
             Console.ReadKey();
         }
-        internal static void SerializMainJSON()
+        private void SerializMainJSON()
         {
             Serializator.JsonSerializator<List<Group>>(groups, "group.json");
             Serializator.JsonSerializator<List<Student>>(students, "student.json");
@@ -61,15 +69,15 @@ namespace LessonInOne.Serialization
             Console.WriteLine("json");
             Console.ReadKey();
         }
-        internal static void SerializMainSOAP()
+        private void SerializMainSOAP()
         {
             //Не умеет работать с List по этому переводим в Array
             Serializator.SoapSerializator(groups.ToArray(), "group.soap");
             Serializator.SoapSerializator(students.ToArray(), "student.soap");
             //Возвращаем тоже Array т.к. не умеет в List/ 
-            var LoadGroups = Serializator.SoapDeserializator<Group[] >("group.soap") ??
+            var LoadGroups = Serializator.SoapDeserializator<Group[]>("group.soap") ??
                             throw new ArgumentNullException("файл group.soap пустой");
-            var LoadStudent = Serializator.SoapDeserializator<Student []>("student.soap") ??
+            var LoadStudent = Serializator.SoapDeserializator<Student[]>("student.soap") ??
                                 throw new ArgumentNullException("файл student.soap пустой");
             PrintCollection(LoadGroups, "Soap");
             //Превращаем Array в List т.к. не хотим писать функцию вывода для array KISS 
@@ -78,13 +86,13 @@ namespace LessonInOne.Serialization
             Console.WriteLine("SOAP");
             Console.ReadKey();
         }
-        internal static  void SerializMainBinary()
+        private void SerializMainBinary()
         {
             Serializator.BinarySerializator(groups, "group.bin");
             Serializator.BinarySerializator(students, "student.bin");
-            var LoadGroups = Serializator.BinaryDeserializator<List<Group>>("group.bin")??
+            var LoadGroups = Serializator.BinaryDeserializator<List<Group>>("group.bin") ??
                              throw new ArgumentNullException("файл group.bin пустой");
-            var LoadStudent = Serializator.BinaryDeserializator<List<Student>>("student.bin")?? 
+            var LoadStudent = Serializator.BinaryDeserializator<List<Student>>("student.bin") ??
                                 throw new ArgumentNullException("файл student.bin пустой");
             LoadStudent = LoadStudent.OrderBy(s => s.Group.Number).ToList();
             PrintCollection(LoadGroups, "Binary");
@@ -93,7 +101,7 @@ namespace LessonInOne.Serialization
             Console.WriteLine("Binary");
             Console.ReadKey();
         }
-        private static void PrintCollection(IEnumerable collection, string serializationMetodName)
+        private void PrintCollection(IEnumerable collection, string serializationMetodName)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(serializationMetodName);
@@ -103,7 +111,7 @@ namespace LessonInOne.Serialization
                 Console.WriteLine(item);
             }
         }
-        private static void PrintStudent(List<Student> students, string serializationMetodName)
+        private void PrintStudent(List<Student> students, string serializationMetodName)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(serializationMetodName);
