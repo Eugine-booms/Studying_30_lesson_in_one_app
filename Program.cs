@@ -23,7 +23,7 @@ namespace LessonInOne
             //раньше вроде понятно
             #endregion
             #region Lesson 15 "Delegate, Event, Anonymous Methods"
-            new DelegatAndEvent().LessonMain();
+            //new DelegatAndEvent().LessonMain();
             #endregion
             #region Lesson 16 Stream And File -> Lesson 17 method SaveFile and SaveFileSerialization
             //Skip
@@ -35,7 +35,7 @@ namespace LessonInOne
             //TODO: Lesson 18 Socket
             #endregion
             #region Lesson 19 "SQL and Entity Framework"
-            //TODO: Lesson 19 SQL and Entity Framework
+            new Lesson19SqlAndEntityFramework().LessonMain();
             #endregion
             #region Lesson 20 "LINQ"
             //TODO: Lesson 20 LINQ
