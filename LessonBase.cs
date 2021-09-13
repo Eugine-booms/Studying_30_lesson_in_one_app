@@ -4,9 +4,10 @@ namespace LessonInOne
 {
     public abstract class LessonBase
     {
+
         protected abstract void Init();
         public abstract void LessonMain();
-        protected void PrintConsole(string text, ConsoleColor color)
+        protected void PrintConsole(string text, ConsoleColor color = ConsoleColor.Gray)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(text);

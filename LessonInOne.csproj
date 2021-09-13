@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Async\Lesson17Async.cs" />
+    <Compile Include="DelegateAndEvents\DelegatAndEvent.cs" />
     <Compile Include="Eat.cs" />
     <Compile Include="ExtensionMethods\Lesson21ExtensionMetods.cs" />
     <Compile Include="ExtensionMethods\Helper.cs" />
@@ -57,11 +58,11 @@
     <Compile Include="IndexerAndEnumerator\Parking.cs" />
     <Compile Include="IndexerAndEnumerator\Sequences.cs" />
     <Compile Include="Serialization\Group.cs" />
-    <Compile Include="Lesson.cs" />
+    <Compile Include="DelegateAndEvents\Lesson.cs" />
     <Compile Include="Photo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\LessonBase.cs" />
+    <Compile Include="LessonBase.cs" />
     <Compile Include="Serialization\Lesson26Serialization.cs" />
     <Compile Include="Serialization\Serializator.cs" />
     <Compile Include="Serialization\Student.cs" />
