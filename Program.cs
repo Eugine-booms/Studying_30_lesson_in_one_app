@@ -12,7 +12,14 @@ namespace LessonInOne
     {
         static void Main(string[] args)
         {
-            #region Lesson 17 async, await, Thread
+            //раньше вроде понятно
+            #region Lesson 15 "Delegate, Event, Anonymous Methods"
+            //new DelegatAndEvent().LessonMain();
+            #endregion
+            #region Lesson 16 Stream And File -> Lesson 17 method SaveFile and SaveFileSerialization
+            //Skip
+            #endregion
+            #region Lesson 17 "async, await, Thread"
             //new Lesson17Async().LessonMain();
             #endregion
             #region Lesson 21 Extension Methods
