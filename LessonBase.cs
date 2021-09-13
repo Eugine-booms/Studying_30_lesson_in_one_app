@@ -7,6 +7,13 @@ namespace LessonInOne
 
         protected abstract void Init();
         public abstract void LessonMain();
+        protected int ConsoleTryParseInt()
+        {
+            int result = default;
+            do { Console.WriteLine("Введите число "); }
+            while (!int.TryParse(Console.ReadLine(), out result));
+            return result;
+        }
         protected void PrintConsole(string text, ConsoleColor color = ConsoleColor.Gray)
         {
             Console.ForegroundColor = color;

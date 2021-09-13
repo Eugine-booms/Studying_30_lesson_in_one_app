@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="Async\Lesson17Async.cs" />
     <Compile Include="DelegateAndEvents\DelegatAndEvent.cs" />
-    <Compile Include="Eat.cs" />
     <Compile Include="ExtensionMethods\Lesson21ExtensionMetods.cs" />
     <Compile Include="ExtensionMethods\Helper.cs" />
     <Compile Include="ExtensionMethods\Road.cs" />
