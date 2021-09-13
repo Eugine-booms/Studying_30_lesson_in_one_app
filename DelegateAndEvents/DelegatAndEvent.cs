@@ -16,6 +16,60 @@ namespace LessonInOne.DelegateAndEvents
             DelegatTemplateExample();
             EventExample();
             EventDelegatExample();
+            AnonymousMethod();
+            LambaMethod();
+
+        }
+
+        private void LambaMethod()
+        {
+            var list = new List<int>();
+            for (int i = 0; i < 100; i++)
+            {
+                list.Add(i);
+            }
+            var agregate= list.Aggregate((x, y) => x + y);
+            PrintConsole("List Aggregate = " + agregate , ConsoleColor.DarkMagenta);
+            var result = Arg(list, Sum);
+            var result1 = Arg(list, Multiplication);
+            var result3 = Arg(list, (x, y) => (x * x * x) + (y * y * y));
+        }
+       // private  int Arg (List<int>list, MyHandler handler)
+       private int Arg (List<int>list, Func<int, int, int> handler)
+        {
+            int result = 0;
+            int i = 1;
+            foreach (var item in list)
+            {
+                result += handler(item, i++);
+            }
+            return result;
+        }
+        //AnonymousMetod delegate
+        private delegate int MyHandler(int i, int j);
+
+        private void AnonymousMethod()
+        {
+            //вот тут мы присваиваем делегату анонимный метод
+            MyHandler handler = delegate (int i, int j)
+            {
+                var result = (i * i) + (j * j);
+                PrintConsole($"Метод анонимный возвращает сумму квадратов {result} ", ConsoleColor.DarkRed);
+                return result;
+            };
+            //так же можем добавить уже существующий 
+            handler += Sum;
+            handler += Multiplication;
+            var handlerInvocationList = handler.GetInvocationList();
+            handler.Invoke(5, 3);
+            MyHandler lambdaHendler = (i, j) =>
+            {
+                var result = (i * i * i) + (j * j * j);
+                PrintConsole($"Лямбда метод возвращает сумму кубов {result} ", ConsoleColor.DarkCyan);
+                return result;
+            };
+            lambdaHendler(5, 3);
+            lambdaHendler?.Invoke(5, 3);
         }
         /// <summary>
         /// шаблоны делегатов
@@ -38,11 +92,9 @@ namespace LessonInOne.DelegateAndEvents
             predicate(5);
 
         }
-
         //public delegate тип_возвращаемого_значения имя_делегата(тип_аргумента аргумент)
         private delegate int MyDelegate(int x, int y);
         private delegate void ConsoleIntPrinter(int x);
-
         private int Sum(int x, int y)
         {
             PrintConsole(x + " " + y + " Метод Summator результат=" + (x + y), ConsoleColor.DarkBlue);
@@ -62,7 +114,6 @@ namespace LessonInOne.DelegateAndEvents
             Console.WriteLine(data);
             return true;
         }
-
         /// <summary>
         /// создание, добавление делегатов по сигнатуре
         /// </summary>
@@ -82,7 +133,7 @@ namespace LessonInOne.DelegateAndEvents
             //вызов пустого делегата приведет к ошибке
             myDelegate1 -= Sum;
             ///Нужно делать проверку
-            if (myDelegate1 !=null)
+            if (myDelegate1 != null)
             {
                 myDelegate1(5, 5);
             }
@@ -102,10 +153,10 @@ namespace LessonInOne.DelegateAndEvents
               {
                   PrintConsole("Обработка события с помощью делегата \n начало в " + e.TimeOfDay, ConsoleColor.Yellow);
               };
-            mathematika.RingIsCalling+=()=> Console.WriteLine($"Звенит звонок прошло{mathematika.Begin - DateTime.Now} времени ");
+            mathematika.RingIsCalling += () => Console.WriteLine($"Звенит звонок прошло{mathematika.Begin - DateTime.Now} времени ");
             mathematika.Start();
             //не работает
-            mathematika.Started -= (sender, e) => 
+            mathematika.Started -= (sender, e) =>
             {
                 PrintConsole("Обработка события с помощью делегата \n начало в " + e.TimeOfDay, ConsoleColor.Yellow);
             };
@@ -120,7 +171,7 @@ namespace LessonInOne.DelegateAndEvents
             mathematika.Started += Mathematika_Started;
             mathematika.Start();
             mathematika.Started -= Mathematika_Started;
-            mathematika.RingIsCalling += () => Console.WriteLine("Повторим звонок прошло " + (mathematika.Begin-mathematika.End) +"времени");
+            mathematika.RingIsCalling += () => Console.WriteLine("Повторим звонок прошло " + (mathematika.Begin - mathematika.End) + "времени");
             mathematika.CallRing();
             mathematika.Bang += (s, e) =>
             {
