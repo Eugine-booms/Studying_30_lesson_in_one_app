@@ -21,6 +21,7 @@ namespace LessonInOne
             #endregion
             #region Lesson 17 "async, await, Thread"
             //раньше вроде понятно
+            #endregion
             #region Lesson 15 "Delegate, Event, Anonymous Methods"
             new DelegatAndEvent().LessonMain();
             #endregion
