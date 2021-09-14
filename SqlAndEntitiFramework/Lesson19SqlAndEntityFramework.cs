@@ -53,7 +53,7 @@ namespace LessonInOne
                         {
                             foreach (var song in songs)
                             {
-                                dbController.deleteSong(song);
+                                dbController.DeleteSong(song);
                             }
                         }
                         else

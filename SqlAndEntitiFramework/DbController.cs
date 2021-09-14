@@ -21,8 +21,8 @@ namespace LessonInOne.SqlAndEntitiFramework
         }
         public int AddSong(string name, int? duration, string albumName, int? year, string groupName)
         {
-            var groupId = addGroup(groupName);
-            var albumId = addAlbum(albumName, year, groupId);
+            var groupId = AddGroup(groupName);
+            var albumId = AddAlbum(albumName, year, groupId);
             if (DbContext.Songs.Any(x => x.Name == name))
             {
                 return DbContext.Songs.ToList()
@@ -43,7 +43,7 @@ namespace LessonInOne.SqlAndEntitiFramework
                                       .Id;
             }
         }
-        public int addAlbum(string albumName, int? year, int groupId)
+        public int AddAlbum(string albumName, int? year, int groupId)
         {
             if (DbContext.Albums.Any(x => x.Name == albumName))
             {
@@ -156,9 +156,9 @@ namespace LessonInOne.SqlAndEntitiFramework
             album = DbContext.Albums.ToList();
             return album;
         }
-        public int addAlbum(string albumName, int year, string groupName)
+        public int AddAlbum(string albumName, int year, string groupName)
         {
-            var GroupId = addGroup(groupName);
+            var GroupId = AddGroup(groupName);
             if (DbContext.Albums.Where(x => x.Name == groupName) == null)
             {
                 DbContext.Albums.Add(
@@ -184,7 +184,7 @@ namespace LessonInOne.SqlAndEntitiFramework
         /// </summary>
         /// <param name="groupName"></param>
         /// <returns>GroupId</returns>
-        public int addGroup(string groupName)
+        public int AddGroup(string groupName)
         {
             if (DbContext.Groups.Any(x => x.Name == groupName))
             {
@@ -211,7 +211,7 @@ namespace LessonInOne.SqlAndEntitiFramework
                     return key;
             }
         }
-        public int deleteSong(Song song)
+        public int DeleteSong(Song song)
         {
             //using (DbContext)
             //{
