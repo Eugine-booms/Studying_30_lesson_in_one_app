@@ -14,6 +14,9 @@ namespace LessonInOne.SqlAndEntitiFramework
         public DbController(DbMusicContext dbContext)
         {
             this.DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _ = this.getGroup();
+            _ = this.getAlbum();
+            _ = this.getSongs();
         }
         public int AddSong(string name, int duration, string albumName, int year, string groupName)
         {
@@ -51,18 +54,27 @@ namespace LessonInOne.SqlAndEntitiFramework
                 DbContext.Songs.Add(song);
                 DbContext.SaveChangesAsync();
             }
-
+        }
+        public void PrintSongsList ()
+        {
+            var songs = this.getSongs();
+            LessonBase.PrintLineConsole("В нашей базе данных следующие песни\n", System.ConsoleColor.DarkCyan);
+            LessonBase.PrintLineConsole("Название     -      Продолжительность \t | \t Альбом - год   \t | \t  Группа |\n ");
+            foreach (var song in songs)
+            {
+                LessonBase.PrintLineConsole($"| {song} | \t{song.Albom} | \t {song.Albom.Group} |", System.ConsoleColor.DarkBlue);
+            }
         }
 
         internal Song AddSongFuleQuastions(string songStr)
         {
-            Console.WriteLine("Группу введи = ");
+            Console.Write("Группу введи = ");
             string group = Console.ReadLine();
-            Console.WriteLine("Длительность введи = ");
+            Console.Write("Длительность введи = ");
             int.TryParse(Console.ReadLine(), out int duration);
-            Console.WriteLine("Альбом введи = ");
+            Console.Write("Альбом введи = ");
             var albumName = Console.ReadLine();
-            Console.WriteLine("Год альбома введи = ");
+            Console.Write("Год альбома введи = ");
             int.TryParse(Console.ReadLine(), out int year);
             return new Song()
             {
@@ -78,33 +90,48 @@ namespace LessonInOne.SqlAndEntitiFramework
                     }
                 }
             };
-           
         }
 
-        internal Song FindeSong(string Name)
+        internal List<Song> FindeSong(string Name)
         {
             using (DbContext)
             {
-
-            var songs = DbContext.Songs.ToList();
-            if (songs.Any(x=>x.Name.Contains(Name)))
-            {
-                return songs.SingleOrDefault(x => x.Name == Name);
-            }
-            return default;
+                var songs = DbContext.Songs.ToList();
+                    return songs.Where(x => x.Name.ToLower().Contains(Name)).ToList()?? default;
             }
         }
         public IEnumerable<Song> getSongs()
         {
             var songs = new List<Song>();
-            DbContext.Songs.Tol 
+            songs = DbContext.Songs.ToList();
+            return songs;
+        }
+        public IEnumerable<Group> getGroup()
+        {
+            var group = new List<Group>();
+            group = DbContext.Groups.ToList();
+            return group;
+        }
+        public IEnumerable<Album> getAlbum()
+        {
+            var album = new List<Album>();
+            album = DbContext.Albums.ToList();
+            return album;
         }
         public int addAlbum(string albumName, int year, string groupName)
         {
             var GroupId = addGroup(groupName);
             if (DbContext.Albums.Where(x => x.Name == groupName) == null)
             {
-                DbContext.Albums.Add(new Album() { Name = albumName, GroupId = GroupId, YearInt = year, Year = new DateTime(year, 0, 0) });
+                DbContext.Albums.Add(
+                    new Album()
+                    {
+                        Name = albumName,
+                        GroupId = GroupId,
+                        YearInt = year,
+                        Year = new DateTime(year, 0, 0)
+                    }
+                );
                 DbContext.SaveChanges();
                 return DbContext.Albums.ToList().SingleOrDefault(x => x.Name == albumName).Id;
             }
@@ -135,17 +162,15 @@ namespace LessonInOne.SqlAndEntitiFramework
             {
                 Console.WriteLine(questionString);
                 var key = Console.ReadKey();
-                if (key.Key == ConsoleKey.Y|| key.Key == ConsoleKey.N)
-                   return key; 
+                if (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N)
+                    return key;
             }
         }
         public int deleteSong(Song song)
         {
             using (DbContext)
             {
-                //var song = DbContext.Songs.SingleOrDefault(s => s.Name == Name);
-
-                string questionString = "вы действительно хотите удалить " + song + "группы " + song.Albom.Group + "y\\n ";
+                string questionString = "вы действительно хотите удалить " + song + " группы " + song.Albom.Group + "y\\n ";
                 var key = YesOrNoQuestion(questionString);
                 switch (key.Key)
                 {

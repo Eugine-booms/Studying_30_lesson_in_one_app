@@ -25,9 +25,9 @@ namespace LessonInOne.Async
         }
         private void BigFileSaveExample()
         {
-            PrintConsole("Мы начали формировать строку!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", ConsoleColor.Yellow);
+            PrintLineConsole("Мы начали формировать строку!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", ConsoleColor.Yellow);
             var str = string.Join(", ", Sequences.Fibonacci.Take(50000000).Select(x => x.ToString()));
-            PrintConsole("Строка сформирована, Милорд!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", ConsoleColor.Yellow);
+            PrintLineConsole("Строка сформирована, Милорд!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", ConsoleColor.Yellow);
             // FileSave("fibonacci.txt", str);
             FileSaveAsync("fibonacci.txt", str);
             FileSaveSerialisationAsync("fibonacci.dat", str);
@@ -46,25 +46,25 @@ namespace LessonInOne.Async
         {
             lock (locker)
             {
-                PrintConsole("Мы начали запись в файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
+                PrintLineConsole("Мы начали запись в файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
                 using (var streamWriter = new StreamWriter(path, false, Encoding.UTF8))
                 {
                     streamWriter.WriteLine(data);
                 }
-                PrintConsole("Мы закончили запись в файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
+                PrintLineConsole("Мы закончили запись в файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
             }
         }
         private void FileSaveSerialisation(string path, string data)
         {
             lock (locker)
             {
-                PrintConsole("Мы начали сериализацию в  файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
+                PrintLineConsole("Мы начали сериализацию в  файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
                 using (var fileStream = new FileStream(path, FileMode.OpenOrCreate))
                 {
                     var binaryFormater = new BinaryFormatter();
                     binaryFormater.Serialize(fileStream, data);
                 }
-                PrintConsole("Мы закончили сериализацию в  файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
+                PrintLineConsole("Мы закончили сериализацию в  файл !!!!!!!!!!!!!!!!!!!!", ConsoleColor.White);
             }
         }
 

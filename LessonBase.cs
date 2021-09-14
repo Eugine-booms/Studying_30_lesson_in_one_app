@@ -14,10 +14,16 @@ namespace LessonInOne
             while (!int.TryParse(Console.ReadLine(), out result));
             return result;
         }
-        protected void PrintConsole(string text, ConsoleColor color = ConsoleColor.Gray)
+        public static void PrintLineConsole(string text, ConsoleColor color = ConsoleColor.Gray)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(text);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+        public static void PrintConsole(string text, ConsoleColor color = ConsoleColor.Gray)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(text);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
     }

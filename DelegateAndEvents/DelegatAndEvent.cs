@@ -29,7 +29,7 @@ namespace LessonInOne.DelegateAndEvents
                 list.Add(i);
             }
             var agregate= list.Aggregate((x, y) => x + y);
-            PrintConsole("List Aggregate = " + agregate , ConsoleColor.DarkMagenta);
+            PrintLineConsole("List Aggregate = " + agregate , ConsoleColor.DarkMagenta);
             var result = Arg(list, Sum);
             var result1 = Arg(list, Multiplication);
             var result3 = Arg(list, (x, y) => (x * x * x) + (y * y * y));
@@ -54,7 +54,7 @@ namespace LessonInOne.DelegateAndEvents
             MyHandler handler = delegate (int i, int j)
             {
                 var result = (i * i) + (j * j);
-                PrintConsole($"Метод анонимный возвращает сумму квадратов {result} ", ConsoleColor.DarkRed);
+                PrintLineConsole($"Метод анонимный возвращает сумму квадратов {result} ", ConsoleColor.DarkRed);
                 return result;
             };
             //так же можем добавить уже существующий 
@@ -65,7 +65,7 @@ namespace LessonInOne.DelegateAndEvents
             MyHandler lambdaHendler = (i, j) =>
             {
                 var result = (i * i * i) + (j * j * j);
-                PrintConsole($"Лямбда метод возвращает сумму кубов {result} ", ConsoleColor.DarkCyan);
+                PrintLineConsole($"Лямбда метод возвращает сумму кубов {result} ", ConsoleColor.DarkCyan);
                 return result;
             };
             lambdaHendler(5, 3);
@@ -76,19 +76,19 @@ namespace LessonInOne.DelegateAndEvents
         /// </summary>
         private void DelegatTemplateExample()
         {
-            PrintConsole("DelegatTemplateExample", ConsoleColor.DarkRed);
+            PrintLineConsole("DelegatTemplateExample", ConsoleColor.DarkRed);
             //шаблоны делегатов
             Predicate<int> predicate; //delegate bool name (int data);
             Action<string> consoleStringPrinter; //delegate void name(string data);
             Func<int, int, int> func = Multiplication;  //delegate int name(int x, int y);
-            PrintConsole("Объявление делегата через Шаблоны ", ConsoleColor.DarkGreen);
+            PrintLineConsole("Объявление делегата через Шаблоны ", ConsoleColor.DarkGreen);
             func += Multiplication;  //короткое объявление делегата сразу с возвращаемым значением
             func += Sum;
             func(4, 8);
             consoleStringPrinter = ConsolePrinter<string>; //короткое объявление делегата сразу без возвращаемого значением
             consoleStringPrinter("Это я Action<string> ConsoleStringPrinter = ConsolePrinter<string>;");
             predicate = ConsolePrinterWhithBool<int>;
-            PrintConsole("А это я Predicate<int> predicate= ConsolePrinterWhithBool<int>; ");
+            PrintLineConsole("А это я Predicate<int> predicate= ConsolePrinterWhithBool<int>; ");
             predicate(5);
 
         }
@@ -97,12 +97,12 @@ namespace LessonInOne.DelegateAndEvents
         private delegate void ConsoleIntPrinter(int x);
         private int Sum(int x, int y)
         {
-            PrintConsole(x + " " + y + " Метод Summator результат=" + (x + y), ConsoleColor.DarkBlue);
+            PrintLineConsole(x + " " + y + " Метод Summator результат=" + (x + y), ConsoleColor.DarkBlue);
             return x + y;
         }
         private int Multiplication(int x, int y)
         {
-            PrintConsole(x + " " + y + " Метод Multiplication результат=" + (x * y), ConsoleColor.Green);
+            PrintLineConsole(x + " " + y + " Метод Multiplication результат=" + (x * y), ConsoleColor.Green);
             return x * y;
         }
         private void ConsolePrinter<T>(T data)
@@ -120,14 +120,14 @@ namespace LessonInOne.DelegateAndEvents
         private void DelegatExample()
         {
 
-            PrintConsole("DelegatExample", ConsoleColor.DarkRed);
+            PrintLineConsole("DelegatExample", ConsoleColor.DarkRed);
 
             MyDelegate myDelegate = new MyDelegate(Multiplication);
             //mydelegate = Sum;                       //при объявлении можно так если поставить = то все заменится на сумм
             myDelegate += Sum;                     //в дальнейшем только так
             MyDelegate myDelegate1 = Sum;
             MyDelegate myDelegate2 = myDelegate + myDelegate1;
-            PrintConsole("MyDelegate myDelegate = new MyDelegate(Multiplication); \n MyDelegate myDelegate1 = Sum; " +
+            PrintLineConsole("MyDelegate myDelegate = new MyDelegate(Multiplication); \n MyDelegate myDelegate1 = Sum; " +
                             "\n MyDelegate myDelegate2 = myDelegate + myDelegate1; \n myDelegate2(3,2) Результат ");
             myDelegate2(3, 2);
             //вызов пустого делегата приведет к ошибке
@@ -148,17 +148,17 @@ namespace LessonInOne.DelegateAndEvents
 
         private void EventDelegatExample()
         {
-            PrintConsole("EventDelegatExample", ConsoleColor.DarkRed);
+            PrintLineConsole("EventDelegatExample", ConsoleColor.DarkRed);
             mathematika.Started += (sender, e) =>
               {
-                  PrintConsole("Обработка события с помощью делегата \n начало в " + e.TimeOfDay, ConsoleColor.Yellow);
+                  PrintLineConsole("Обработка события с помощью делегата \n начало в " + e.TimeOfDay, ConsoleColor.Yellow);
               };
             mathematika.RingIsCalling += () => Console.WriteLine($"Звенит звонок прошло{mathematika.Begin - DateTime.Now} времени ");
             mathematika.Start();
             //не работает
             mathematika.Started -= (sender, e) =>
             {
-                PrintConsole("Обработка события с помощью делегата \n начало в " + e.TimeOfDay, ConsoleColor.Yellow);
+                PrintLineConsole("Обработка события с помощью делегата \n начало в " + e.TimeOfDay, ConsoleColor.Yellow);
             };
             mathematika.Start();
             mathematika.CallRing();
@@ -167,7 +167,7 @@ namespace LessonInOne.DelegateAndEvents
         private void EventExample()
         {
 
-            PrintConsole("EventExample", ConsoleColor.DarkRed);
+            PrintLineConsole("EventExample", ConsoleColor.DarkRed);
             mathematika.Started += Mathematika_Started;
             mathematika.Start();
             mathematika.Started -= Mathematika_Started;
@@ -189,7 +189,7 @@ namespace LessonInOne.DelegateAndEvents
 
         private void Mathematika_Started(object sender, DateTime e)
         {
-            PrintConsole("Я метод обработки события \nУрок математики начался в " + e.TimeOfDay, ConsoleColor.Green);
+            PrintLineConsole("Я метод обработки события \nУрок математики начался в " + e.TimeOfDay, ConsoleColor.Green);
         }
     }
 }
