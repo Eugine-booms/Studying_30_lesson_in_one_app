@@ -79,6 +79,7 @@
     <Compile Include="SqlAndEntitiFramework\DbMusicContext.cs" />
     <Compile Include="SqlAndEntitiFramework\DbController.cs" />
     <Compile Include="SqlAndEntitiFramework\Group.cs" />
+    <Compile Include="SqlAndEntitiFramework\IDbController.cs" />
     <Compile Include="SqlAndEntitiFramework\Lesson19SqlAndEntityFramework.cs" />
     <Compile Include="Serialization\Group.cs" />
     <Compile Include="DelegateAndEvents\Lesson.cs" />

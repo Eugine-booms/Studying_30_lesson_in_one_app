@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LessonInOne.SqlAndEntitiFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,10 @@ namespace LessonInOne.ExtensionMethods
             road.Number = "E" + Guid.NewGuid().ToString().Substring(0, 3);
             road.Lenght = rnd.Next(minLenght, maxLenght);
             return road;
+        }
+        public static bool IsNull(this Song song)
+        {
+            return song == default(Song);
         }
     }
 }
