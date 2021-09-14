@@ -22,9 +22,6 @@ namespace LessonInOne
             //dbController.AddSong("Снег идет", 313, "Троды плудов", 1994, "Несчастный случай");
             //dbController.AddSong("Dream On", 300, "Aerosmith's Greatest Hits", 1980, "Aerosmith");
             //dbController.AddSong("Shape of my heart", 232, "Sting Greatest Hits", 2000, "Sting");
-
-            
-
             dbController.PrintSongsList();
             while (true)
             {
@@ -32,18 +29,26 @@ namespace LessonInOne
                 var key = MenuQuation("\n Выбери число =");
                 switch (key.Key)
                 {
-                    case ConsoleKey.D1:
+                    case ConsoleKey.D1: // добавить песню
                         var songStr = SongNameQuestion();
-                        if (dbController.FindeSong(songStr) != default)
+                        if (dbController.FindeSong(songStr).Count>0)
+                        {
                             PrintLineConsole("Такая песня уже есть");
-                        dbController.AddSongFuleQuastions(songStr);
+                        }
+                        else
+                        {
+                            var song =dbController.FullSongDataQuestions(songStr);
+                            dbController.AddSong(song);
+                        }
                         break;
-                    case ConsoleKey.D2:
-
-                        break;
-                    case ConsoleKey.D3:
+                    case ConsoleKey.D2: //изменить песню
                         var songName = SongNameQuestion();
                         var songs = dbController.FindeSong(songName);
+
+                        break;
+                    case ConsoleKey.D3: //удалить 
+                         songName = SongNameQuestion();
+                         songs = dbController.FindeSong(songName);
                         if (songs.Count>0)
                         {
                             foreach (var song in songs)
@@ -53,9 +58,10 @@ namespace LessonInOne
                         }
                         else
                             PrintLineConsole("Песня не найдена");
-                       
                         break;
-
+                    case ConsoleKey.D4: //удалить 
+                        dbController.PrintSongsList();
+                        break;
                     default:
                         break;
                 }
@@ -65,14 +71,12 @@ namespace LessonInOne
 
         private string SongNameQuestion()
         {
-
             PrintConsole("\n Введите название песни = ", ConsoleColor.DarkGreen);
             return Console.ReadLine();
         }
-
         private void PrintMenu()
         {
-            PrintLineConsole("1 - Добавить песню \n2 - Изменить песню \n3 - Удалить песню \n");
+            PrintLineConsole("1 - Добавить песню \n2 - Изменить песню \n3 - Удалить песню \n4 - Список песен");
         }
         private ConsoleKeyInfo MenuQuation(string questionString)
         {
@@ -80,7 +84,7 @@ namespace LessonInOne
             {
                 Console.Write(questionString);
                 var key = Console.ReadKey();
-                if (key.Key == ConsoleKey.D1 || key.Key == ConsoleKey.D2 || key.Key == ConsoleKey.D3)
+                if (key.Key == ConsoleKey.D1 || key.Key == ConsoleKey.D2 || key.Key == ConsoleKey.D3|| key.Key == ConsoleKey.D4)
                     return key;
             }
         }

@@ -13,61 +13,79 @@ namespace LessonInOne.SqlAndEntitiFramework
 
         public DbController(DbMusicContext dbContext)
         {
+
             this.DbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _ = this.getGroup();
             _ = this.getAlbum();
             _ = this.getSongs();
         }
-        public int AddSong(string name, int duration, string albumName, int year, string groupName)
+        public int AddSong(string name, int? duration, string albumName, int? year, string groupName)
         {
             var groupId = addGroup(groupName);
             var albumId = addAlbum(albumName, year, groupId);
             if (DbContext.Songs.Any(x => x.Name == name))
             {
-                return DbContext.Songs.ToList().SingleOrDefault(x => x.Name == name).Id;
+                return DbContext.Songs.ToList()
+                                      .SingleOrDefault(x => x.Name == name)
+                                      .Id;
             }
             else
             {
-                DbContext.Songs.Add(new Song() { Name = name, Duration = duration, AlbomId = albumId });
+                DbContext.Songs.Add(new Song()
+                {
+                    Name = name,
+                    Duration = duration,
+                    AlbomId = albumId
+                });
                 DbContext.SaveChanges();
-                return DbContext.Songs.ToList().SingleOrDefault(x => x.Name == name).Id;
+                return DbContext.Songs.ToList()
+                                      .SingleOrDefault(x => x.Name == name)
+                                      .Id;
             }
         }
-        public int addAlbum(string albumName, int year, int groupId)
+        public int addAlbum(string albumName, int? year, int groupId)
         {
             if (DbContext.Albums.Any(x => x.Name == albumName))
             {
-                return DbContext.Albums.ToList().SingleOrDefault(x => x.Name == albumName).Id;
+                return DbContext.Albums.ToList()
+                                       .SingleOrDefault(x => x.Name == albumName)
+                                       .Id;
             }
             else
             {
-                DbContext.Albums.Add(new Album() { Name = albumName, GroupId = groupId, YearInt = year, Year = new DateTime(year, 1, 1) });
+                DbContext.Albums.Add(new Album()
+                {
+                    Name = albumName,
+                    GroupId = groupId,
+                    YearInt = year,
+                    Year = new DateTime(year?? default(int), 1, 1)
+                });
                 DbContext.SaveChanges();
-                return DbContext.Albums.ToList().SingleOrDefault(x => x.Name == albumName).Id;
+                return DbContext.Albums.ToList()
+                                       .SingleOrDefault(x => x.Name == albumName)
+                                       .Id;
             }
         }
-
-        internal void AddSong(Song song)
-        {
-            using (DbContext)
-            {
-                DbContext.Songs.Add(song);
-                DbContext.SaveChangesAsync();
-            }
-        }
-        public void PrintSongsList ()
+        internal void AddSong(Song song) => AddSong(song.Name, song.Duration, song.Albom.Name, song.Albom.YearInt, song.Albom.Group.Name);
+        public void PrintSongsList()
         {
             var songs = this.getSongs();
-            LessonBase.PrintLineConsole("В нашей базе данных следующие песни\n", System.ConsoleColor.DarkCyan);
-            LessonBase.PrintLineConsole("Название     -      Продолжительность \t | \t Альбом - год   \t | \t  Группа |\n ");
+            LessonBase.PrintLineConsole("\n В нашей базе данных следующие песни", System.ConsoleColor.DarkCyan);
+            LessonBase.PrintLineConsole("Название  - Продолжительность              | \t Альбом - год   \t    | \t           Группа               | ");
+            //var str = String.Format("|{0}|{1}||")
             foreach (var song in songs)
             {
-                LessonBase.PrintLineConsole($"| {song} | \t{song.Albom} | \t {song.Albom.Group} |", System.ConsoleColor.DarkBlue);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+
+                Console.WriteLine(" {0,40}  | {1,30} |  {2,30} |", song.ToString(), song.Albom.ToString(), song.Albom.Group.ToString());
+                Console.ResetColor();
             }
         }
 
-        internal Song AddSongFuleQuastions(string songStr)
+        internal Song FullSongDataQuestions(string songStr)
         {
+            #region 
+            /*
             Console.Write("Группу введи = ");
             string group = Console.ReadLine();
             Console.Write("Длительность введи = ");
@@ -90,15 +108,35 @@ namespace LessonInOne.SqlAndEntitiFramework
                     }
                 }
             };
+            */
+            #endregion
+            //for testing
+            return new Song()
+            {
+                Name = songStr,
+                Duration = 375,
+                Albom = new Album()
+                {
+                    Name = "Mafia 2 OST",
+                    YearInt = 2010,
+                    Group = new Group()
+                    {
+                        Name = "Louis Prima"
+                    }
+                }
+            };
+
         }
 
         internal List<Song> FindeSong(string Name)
         {
-            using (DbContext)
-            {
-                var songs = DbContext.Songs.ToList();
-                    return songs.Where(x => x.Name.ToLower().Contains(Name)).ToList()?? default;
-            }
+            //using (DbContext)
+            //{
+            var songs = DbContext.Songs.ToList();
+            var result=songs.Where(x => x.Name.ToLower().Contains(Name))
+                        .ToList() ?? default;
+            return result;
+            //}
         }
         public IEnumerable<Song> getSongs()
         {
@@ -133,9 +171,13 @@ namespace LessonInOne.SqlAndEntitiFramework
                     }
                 );
                 DbContext.SaveChanges();
-                return DbContext.Albums.ToList().SingleOrDefault(x => x.Name == albumName).Id;
+                return DbContext.Albums.ToList()
+                                       .SingleOrDefault(x => x.Name == albumName)
+                                       .Id;
             }
-            else return DbContext.Albums.ToList().SingleOrDefault(x => x.Name == albumName).Id;
+            else return DbContext.Albums.ToList()
+                                        .SingleOrDefault(x => x.Name == albumName)
+                                        .Id;
         }
         /// <summary>
         /// 
@@ -144,23 +186,26 @@ namespace LessonInOne.SqlAndEntitiFramework
         /// <returns>GroupId</returns>
         public int addGroup(string groupName)
         {
-            //var ifnull = DbContext.Groups.Any(x => x.Name == groupName);
             if (DbContext.Groups.Any(x => x.Name == groupName))
             {
-                return DbContext.Groups.ToList().SingleOrDefault(x => x.Name == groupName).Id;
+                return DbContext.Groups.ToList()
+                                       .SingleOrDefault(x => x.Name == groupName)
+                                       .Id;
             }
             else
             {
                 DbContext.Groups.Add(new Group() { Name = groupName });
                 DbContext.SaveChanges();
-                return DbContext.Groups.ToList().SingleOrDefault(x => x.Name == groupName).Id;
+                return DbContext.Groups.ToList()
+                                       .SingleOrDefault(x => x.Name == groupName)
+                                       .Id;
             }
         }
         private ConsoleKeyInfo YesOrNoQuestion(string questionString)
         {
             while (true)
             {
-                Console.WriteLine(questionString);
+                Console.Write(questionString);
                 var key = Console.ReadKey();
                 if (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N)
                     return key;
@@ -168,21 +213,22 @@ namespace LessonInOne.SqlAndEntitiFramework
         }
         public int deleteSong(Song song)
         {
-            using (DbContext)
+            //using (DbContext)
+            //{
+            string questionString = "вы действительно хотите удалить " + song + " группы " + song.Albom.Group + " y/n ";
+            var key = YesOrNoQuestion(questionString);
+            switch (key.Key)
             {
-                string questionString = "вы действительно хотите удалить " + song + " группы " + song.Albom.Group + "y\\n ";
-                var key = YesOrNoQuestion(questionString);
-                switch (key.Key)
-                {
-                    case ConsoleKey.Y:
-                        DbContext.Songs.Remove(song);
-                        DbContext.SaveChangesAsync();
-                        return -1;
-                    case ConsoleKey.N:
-                        return song.Id;
-                }
-                return -1;
+                case ConsoleKey.Y:
+                    DbContext.Songs.Remove(song);
+                    //DbContext.SaveChangesAsync();
+                    DbContext.SaveChanges();
+                    return -1;
+                case ConsoleKey.N:
+                    return song.Id;
             }
+            return -1;
+            //}
         }
     }
 
