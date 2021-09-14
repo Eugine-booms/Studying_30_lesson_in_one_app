@@ -22,10 +22,9 @@ namespace LessonInOne.SqlAndEntitiFramework
         public void AddSong(Song song) => AddSong(song.Name, song.Duration, song.Albom.Name, song.Albom.YearInt, song.Albom.Group.Name);
         public void PrintSongsList()
         {
-            var songs = this.GetSongs();
+            var songs = GetSongs();
             LessonBase.PrintLineConsole("\n В нашей базе данных следующие песни", System.ConsoleColor.DarkCyan);
             LessonBase.PrintLineConsole("Название  - Продолжительность              | \t Альбом - год   \t    | \t           Группа               | ");
-            //var str = String.Format("|{0}|{1}||")
             foreach (var song in songs)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -105,33 +104,33 @@ namespace LessonInOne.SqlAndEntitiFramework
         //    return -1;
         //}
 
-        public int ChangeSong(Song song, bool delete = false)
-        {
-            string del = string.Empty;
-            if (delete)
-                del = "удалить";
-            else
-                del = "изменить";
-            string questionString = "\n вы действительно хотите "+ del +" "+ song + " группы " + song.Albom.Group + " y/n ";
-            var key = YesOrNoQuestion(questionString);
-            switch (key.Key)
+            public int ChangeSong(Song song, bool delete = false)
             {
-                case ConsoleKey.Y:
-                    if (delete)
-                    {
-                        DbContext.Songs.Remove(song);
-                        DbContext.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        var s = DbContext.Songs.Single(x => x.Id == song.Id);
-                        Console.Write("Введи новое имя = ");
-                        s.Name = Console.ReadLine();
-                        Console.Write("Введи новую длину  = ");
-                        int.TryParse(Console.ReadLine(), out int duration);
-                        s.Duration = duration;
-                        DbContext.SaveChangesAsync();
-                    }
+                string del = string.Empty;
+                if (delete)
+                    del = "удалить";
+                else
+                    del = "изменить";
+                string questionString = "\n вы действительно хотите " + del + " " + song + " группы " + song.Albom.Group + " y/n ";
+                var key = YesOrNoQuestion(questionString);
+                switch (key.Key)
+                {
+                    case ConsoleKey.Y:
+                        if (delete)
+                        {
+                            DbContext.Songs.Remove(song);
+                            DbContext.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            var s = DbContext.Songs.Single(x => x.Id == song.Id);
+                            Console.Write("Введи новое имя = ");
+                            s.Name = Console.ReadLine();
+                            Console.Write("Введи новую длину  = ");
+                            int.TryParse(Console.ReadLine(), out int duration);
+                            s.Duration = duration;
+                            DbContext.SaveChangesAsync();
+                        }
                         return -1;
                 case ConsoleKey.N:
                     return song.Id;
