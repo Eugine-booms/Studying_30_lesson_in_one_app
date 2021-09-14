@@ -19,6 +19,7 @@ namespace LessonInOne
             IDbController dbController = new DbController(new DbMusicContext());
             using (dbController.DbContext)
             {
+                var dbController = new DbController(control);
                 //var t= control.SaveChangesAsync();
                 //dbController.AddSong("You Can't always get what you want ", 377, "Let It Bleed", 1969, "The rolling Stones");
                 //dbController.AddSong("Снег идет", 313, "Троды плудов", 1994, "Несчастный случай");
@@ -69,6 +70,7 @@ namespace LessonInOne
                         case ConsoleKey.D4: //Вывести лист песен 
                             dbController.PrintSongsList();
                             break;
+
                         default:
                             break;
                     }
@@ -97,6 +99,7 @@ namespace LessonInOne
             PrintConsole("\n Введите название песни = ", ConsoleColor.DarkGreen);
             return Console.ReadLine();
         }
+
         private void PrintMenu()
         {
             PrintLineConsole("\n1 - Добавить песню \n2 - Изменить песню \n3 - Удалить песню \n4 - Список песен");
@@ -111,6 +114,8 @@ namespace LessonInOne
                     return key;
             }
         }
+
+
         protected override void Init()
         {
             ;
