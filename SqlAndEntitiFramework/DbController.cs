@@ -20,18 +20,18 @@ namespace LessonInOne.SqlAndEntitiFramework
         public void AddSong(Song song) => AddSong(song.Name, song.Duration, song.Albom.Name, song.Albom.YearInt, song.Albom.Group.Name);
         public void PrintSongsList()
         {
-                var songs = this.GetSongs();
-                LessonBase.PrintLineConsole("\n В нашей базе данных следующие песни", System.ConsoleColor.DarkCyan);
-                LessonBase.PrintLineConsole("Название  - Продолжительность              | \t Альбом - год   \t    | \t           Группа               | ");
-                //var str = String.Format("|{0}|{1}||")
-                foreach (var song in songs)
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine(" {0,40}  | {1,30} |  {2,30} |", song.ToString(), song.Albom.ToString(), song.Albom.Group.ToString());
-                    Console.ResetColor();
-                }
+            var songs = this.GetSongs();
+            LessonBase.PrintLineConsole("\n В нашей базе данных следующие песни", System.ConsoleColor.DarkCyan);
+            LessonBase.PrintLineConsole("Название  - Продолжительность              | \t Альбом - год   \t    | \t           Группа               | ");
+            //var str = String.Format("|{0}|{1}||")
+            foreach (var song in songs)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine(" {0,40}  | {1,30} |  {2,30} |", song.ToString(), song.Albom.ToString(), song.Albom.Group.ToString());
+                Console.ResetColor();
+            }
         }
-        public Song FullSongDataQuestions(string songStr)
+        public Song FullSongDataQuestions(string songStr) //корявая фигня
         {
             #region 
             Console.Write("Группу введи = ");
@@ -77,67 +77,75 @@ namespace LessonInOne.SqlAndEntitiFramework
                 }
             };*/
             #endregion
-        }   //корявая фигня
+        }
         public List<Song> FindeSameSongs(string Name)
         {
-            
-                var songs = DbContext.Songs.Where(x => x.Name.ToLower().Contains(Name.ToLower())).ToList();
-                //var result = songs.Where(x => x.Name.ToLower().Contains(Name.ToLower()))
-                //            .ToList() ?? default;
-                return songs;
-            
+            return DbContext.Songs.Where(x => x.Name.ToLower().Contains(Name.ToLower())).ToList();
         }
-        public int DeleteSong(Song song)
+        //public int DeleteSong(Song song)
+        //{
+        //    string questionString = "\n вы действительно хотите удалить " + song + " группы " + song.Albom.Group + " y/n ";
+        //    var key = YesOrNoQuestion(questionString);
+        //    switch (key.Key)
+        //    {
+        //        case ConsoleKey.Y:
+        //            DbContext.Songs.Remove(song);
+        //            DbContext.SaveChangesAsync();
+        //            return -1;
+        //        case ConsoleKey.N:
+        //            return song.Id;
+        //    }
+        //    return -1;
+        //}
+
+        public int ChangeSong(Song song, bool delete = false)
         {
-                string questionString = "\n вы действительно хотите удалить " + song + " группы " + song.Albom.Group + " y/n ";
-                var key = YesOrNoQuestion(questionString);
-                switch (key.Key)
-                {
-                    case ConsoleKey.Y:
+            string del = string.Empty;
+            if (delete)
+                del = "удалить";
+            else
+                del = "изменить";
+            string questionString = "\n вы действительно хотите "+ del +" "+ song + " группы " + song.Albom.Group + " y/n ";
+            var key = YesOrNoQuestion(questionString);
+            switch (key.Key)
+            {
+                case ConsoleKey.Y:
+                    if (delete)
+                    {
                         DbContext.Songs.Remove(song);
-                        //DbContext.SaveChangesAsync();
-                        DbContext.SaveChanges();
+                        DbContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        var s = DbContext.Songs.Single(x => x.Id == song.Id);
+                        Console.Write("Введи новое имя = ");
+                        s.Name = Console.ReadLine();
+                        Console.Write("Введи новую длину  = ");
+                        int.TryParse(Console.ReadLine(), out int duration);
+                        s.Duration = duration;
+                        DbContext.SaveChangesAsync();
+                    }
                         return -1;
-                    case ConsoleKey.N:
-                        return song.Id;
-                }
-                return -1;
-        }
-        public void ChangeSong(Song song)
-        {
-            var s = DbContext.Songs.Single(x => x.Id == song.Id);
-            Console.Write("Введи новое имя = ");
-            s.Name = Console.ReadLine();
-            Console.Write("Введи новую длину  = ");
-            int.TryParse(Console.ReadLine(), out int duration);
-            s.Duration = duration;
-            DbContext.SaveChangesAsync();
+                case ConsoleKey.N:
+                    return song.Id;
+            }
+            return -1;
         }
         public Song FindeSongs(string FindingSongName)
         {
-            //return DbContext.Songs.ToList()
-            //                      .SingleOrDefault(x => x.Name.ToLower().Equals(FindingSongName.ToLower()));
-            //var songs = GetSongs();
-                var result = DbContext.Songs.SingleOrDefault(x => x.Name.ToLower().Equals(FindingSongName.ToLower()));
-                return result;
+            return DbContext.Songs.SingleOrDefault(x => x.Name.ToLower().Equals(FindingSongName.ToLower()));
         }
         private IEnumerable<Song> GetSongs()
         {
-                var songs = new List<Song>();
-                songs = DbContext.Songs.ToList();
-                return songs;
+            return DbContext.Songs.ToList(); ;
         }
         private IEnumerable<Group> GetGroup()
         {
-                var group = new List<Group>();
-                group = DbContext.Groups.ToList();
-                return group;
+            return DbContext.Groups.ToList();
         }
         private IEnumerable<Album> GetAlbum()
         {
-                var album = new List<Album>();
-                album = DbContext.Albums.ToList();
-                return album;
+            return DbContext.Albums.ToList();
         }
         private ConsoleKeyInfo YesOrNoQuestion(string questionString)
         {
@@ -151,83 +159,83 @@ namespace LessonInOne.SqlAndEntitiFramework
         }
         private int AddSong(string name, int? duration, string albumName, int? year, string groupName)
         {
-                var groupId = AddGroup(groupName);
-                var albumId = AddAlbum(albumName, year, groupId);
-                if (DbContext.Songs.Any(x => x.Name == name))
+            var groupId = AddGroup(groupName);
+            var albumId = AddAlbum(albumName, year, groupId);
+            if (DbContext.Songs.Any(x => x.Name == name))
+            {
+                return DbContext.Songs.SingleOrDefault(x => x.Name == name)
+                                      .Id;
+            }
+            else
+            {
+                DbContext.Songs.Add(new Song()
                 {
-                    return DbContext.Songs.SingleOrDefault(x => x.Name == name)
-                                          .Id;
-                }
-                else
-                {
-                    DbContext.Songs.Add(new Song()
-                    {
-                        Name = name,
-                        Duration = duration,
-                        AlbomId = albumId
-                    });
-                    DbContext.SaveChanges();
-                    return DbContext.Songs.SingleOrDefault(x => x.Name == name)
-                                          .Id;
-                }
+                    Name = name,
+                    Duration = duration,
+                    AlbomId = albumId
+                });
+                DbContext.SaveChanges();
+                return DbContext.Songs.SingleOrDefault(x => x.Name == name)
+                                      .Id;
+            }
         }
         private int AddGroup(string groupName)
         {
 
-                if (DbContext.Groups.Any(x => x.Name == groupName))
-                {
-                    return DbContext.Groups.SingleOrDefault(x => x.Name == groupName)
-                                           .Id;
-                }
-                else
-                {
-                    DbContext.Groups.Add(new Group() { Name = groupName });
-                    DbContext.SaveChanges();
-                    return DbContext.Groups.SingleOrDefault(x => x.Name == groupName)
-                                           .Id;
-                }
+            if (DbContext.Groups.Any(x => x.Name == groupName))
+            {
+                return DbContext.Groups.SingleOrDefault(x => x.Name == groupName)
+                                       .Id;
+            }
+            else
+            {
+                DbContext.Groups.Add(new Group() { Name = groupName });
+                DbContext.SaveChanges();
+                return DbContext.Groups.SingleOrDefault(x => x.Name == groupName)
+                                       .Id;
+            }
         }
         private int AddAlbum(string albumName, int? year, int groupId)
         {
-                if (DbContext.Albums.Any(x => x.Name == albumName))
+            if (DbContext.Albums.Any(x => x.Name == albumName))
+            {
+                return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
+                                       .Id;
+            }
+            else
+            {
+                DbContext.Albums.Add(new Album()
                 {
-                    return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
-                                           .Id;
-                }
-                else
-                {
-                    DbContext.Albums.Add(new Album()
-                    {
-                        Name = albumName,
-                        GroupId = groupId,
-                        YearInt = year,
-                        Year = new DateTime(year ?? default(int), 1, 1)
-                    });
-                    DbContext.SaveChanges();
-                    return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
-                                           .Id;
-                }
+                    Name = albumName,
+                    GroupId = groupId,
+                    YearInt = year,
+                    Year = new DateTime(year ?? default(int), 1, 1)
+                });
+                DbContext.SaveChanges();
+                return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
+                                       .Id;
+            }
         }
         private int AddAlbum(string albumName, int year, string groupName)
         {
-                var GroupId = AddGroup(groupName);
-                if (DbContext.Albums.Where(x => x.Name == groupName) == null)
-                {
-                    DbContext.Albums.Add(
-                        new Album()
-                        {
-                            Name = albumName,
-                            GroupId = GroupId,
-                            YearInt = year,
-                            Year = new DateTime(year, 0, 0)
-                        }
-                    );
-                    DbContext.SaveChanges();
-                    return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
-                                           .Id;
-                }
-                else return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
-                                            .Id;
+            var GroupId = AddGroup(groupName);
+            if (DbContext.Albums.Where(x => x.Name == groupName) == null)
+            {
+                DbContext.Albums.Add(
+                    new Album()
+                    {
+                        Name = albumName,
+                        GroupId = GroupId,
+                        YearInt = year,
+                        Year = new DateTime(year, 0, 0)
+                    }
+                );
+                DbContext.SaveChanges();
+                return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
+                                       .Id;
+            }
+            else return DbContext.Albums.SingleOrDefault(x => x.Name == albumName)
+                                        .Id;
         }
     }
 }

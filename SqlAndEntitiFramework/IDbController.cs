@@ -7,11 +7,11 @@ namespace LessonInOne.SqlAndEntitiFramework
         DbMusicContext DbContext { get; }
 
         void AddSong(Song song);
-        int DeleteSong(Song song);
+      //  int DeleteSong(Song song);
         void PrintSongsList();
         List<Song> FindeSameSongs(string Name);
         Song FullSongDataQuestions(string songStr);
-        void ChangeSong(Song song);
+        int ChangeSong(Song song, bool isDel = false);
         Song FindeSongs(string addingSongName);
     }
 }

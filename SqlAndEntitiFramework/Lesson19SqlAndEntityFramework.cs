@@ -16,9 +16,6 @@ namespace LessonInOne
 
         public override void LessonMain()
         {
-
-           // var dbController = new IDbController(new DbMusicContext());
-            
             IDbController dbController = new DbController(new DbMusicContext());
             using (dbController.DbContext)
             {
@@ -88,7 +85,7 @@ namespace LessonInOne
             {
                 foreach (var song in deletingSongs)
                 {
-                    dbController.DeleteSong(song);
+                    dbController.ChangeSong(song, true);
                 }
             }
             else
@@ -102,7 +99,7 @@ namespace LessonInOne
         }
         private void PrintMenu()
         {
-            PrintLineConsole("1 - Добавить песню \n2 - Изменить песню \n3 - Удалить песню \n4 - Список песен");
+            PrintLineConsole("\n1 - Добавить песню \n2 - Изменить песню \n3 - Удалить песню \n4 - Список песен");
         }
         private ConsoleKeyInfo MenuQuestion(string questionString)
         {
