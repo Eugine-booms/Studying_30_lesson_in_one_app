@@ -69,7 +69,7 @@ namespace LessonInOne.SqlAndEntitiFramework
         internal void AddSong(Song song) => AddSong(song.Name, song.Duration, song.Albom.Name, song.Albom.YearInt, song.Albom.Group.Name);
         public void PrintSongsList()
         {
-            var songs = this.GetSongs();
+            var songs = this.getSongs();
             LessonBase.PrintLineConsole("\n В нашей базе данных следующие песни", System.ConsoleColor.DarkCyan);
             LessonBase.PrintLineConsole("Название  - Продолжительность              | \t Альбом - год   \t    | \t           Группа               | ");
             //var str = String.Format("|{0}|{1}||")
